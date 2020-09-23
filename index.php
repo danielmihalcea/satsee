@@ -34,16 +34,16 @@ if (isset($_COOKIE['curen'])){$curen=$_COOKIE['curen'];}else{$curen='$';}
 <link rel="stylesheet" type="text/css"href="s.css" />
 <link rel="icon" type="image/png" href="favicon.png" />
 <meta property="og:title" content="Satsee - Route calculator" />
-<meta property="og:url" content="http://www.satsee.com/" />
-<meta property="og:image" content="http://www.satsee.com/logo.png" />
+<meta property="og:url" content="http://satsee.mihalcea.fr/" />
+<meta property="og:image" content="http://satsee.mihalcea.fr/logo.png" />
 <meta property="og:description" content="Satsee offers route calculating software." />
 </head>
 <body>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 <script src="./vincenty.js"></script>
-<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script src="http://maps.google.com/maps/api/js"></script>
 <script src="./s.js"></script>
-<script type="text/javascript">
+<script>
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-27130384-1']);
   _gaq.push(['_setDomainName', '.satsee.com']);
