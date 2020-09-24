@@ -1,6 +1,6 @@
 <?
 if (preg_match("/iPhone/i", $_SERVER["HTTP_USER_AGENT"])) {
-	header ("Location: phone.php"); 
+	// header ("Location: phone.php"); 
 }
 function sanitize_output($buffer) { // réduis le code HTML
 	$search = array(
@@ -26,22 +26,22 @@ if (isset($_COOKIE['unit'])){$unit=(float)$_COOKIE['unit'];}else{$unit=0;}
 if (isset($_COOKIE['curen'])){$curen=$_COOKIE['curen'];}else{$curen='$';}
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-<meta name="viewport" content="user-scalable=no, width=700" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="user-scalable=no, width=700">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Satsee - Route calculator</title>
-<link rel="stylesheet" type="text/css"href="s.css" />
-<link rel="icon" type="image/png" href="favicon.png" />
-<meta property="og:title" content="Satsee - Route calculator" />
-<meta property="og:url" content="http://satsee.mihalcea.fr/" />
-<meta property="og:image" content="http://satsee.mihalcea.fr/logo.png" />
-<meta property="og:description" content="Satsee offers route calculating software." />
+<link rel="stylesheet" type="text/css"href="s.css">
+<link rel="icon" type="image/png" href="favicon.png">
+<meta property="og:title" content="Satsee - Route calculator">
+<meta property="og:url" content="http://satsee.mihalcea.fr/">
+<meta property="og:image" content="http://satsee.mihalcea.fr/logo.png">
+<meta property="og:description" content="Satsee offers route calculating software.">
 </head>
 <body>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 <script src="./vincenty.js"></script>
-<script src="http://maps.google.com/maps/api/js"></script>
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyBFiSSWY619h4crjQRChVGHzstaCtdel4Q"></script>
 <script src="./s.js"></script>
 <script>
   var _gaq = _gaq || [];
@@ -71,7 +71,7 @@ if (isset($_COOKIE['curen'])){$curen=$_COOKIE['curen'];}else{$curen='$';}
 		</div>
 		<div id="rdv"></div>
 		<span id="coords">Lat: <span class="coord">43° 42'32"N</span> Lon: <span class="coord">7° 20'13"E</span></span>
-		<input id="search" type="text" value="" onfocus="this.select();" onchange="address(this.value);" />&nbsp;
+		<input id="search" type="text" value="" onfocus="this.select();" onchange="address(this.value);">&nbsp;
 		<select id="map_type" onchange="change_map_type(this.value);">
 			<option value="0">Satelite</option>
 			<option value="1">Hybrid</option>
@@ -97,24 +97,24 @@ if (isset($_COOKIE['curen'])){$curen=$_COOKIE['curen'];}else{$curen='$';}
 		<div id="tbc1" class="wrap">
 				<form>
 				<div id="tbc1_1">
-					<span class="stplbl">Cruise speed :</span> <input type="text" id="inp_speed" value="<?=$speed?>" onchange="coo();update_calc();" onkeyup="coo();update_calc();" size="6" /> <span class="lbl_speed">kn</span><br />
-					<span class="stplbl">Fuel consumption :</span> <input type="text" id="inp_conso" value="<?=$conso?>" onchange="coo();update_calc();" onkeyup="coo();update_calc();" size="6" /> <span class="lbl_vol">L</span>/h<br />
+					<span class="stplbl">Cruise speed :</span> <input type="text" id="inp_speed" value="<?=$speed?>" onchange="coo();update_calc();" onkeyup="coo();update_calc();" size="6"> <span class="lbl_speed">kn</span><br>
+					<span class="stplbl">Fuel consumption :</span> <input type="text" id="inp_conso" value="<?=$conso?>" onchange="coo();update_calc();" onkeyup="coo();update_calc();" size="6"> <span class="lbl_vol">L</span>/h<br>
 				</div>
 				<div id="tbc1_2">
-					<span class="stplbl">Fuel rate :</span> <input type="text" id="inp_rate" value="<?=$price?>" onchange="coo();update_calc();" onkeyup="coo();update_calc();" size="6" />
+					<span class="stplbl">Fuel rate :</span> <input type="text" id="inp_rate" value="<?=$price?>" onchange="coo();update_calc();" onkeyup="coo();update_calc();" size="6">
 					<select id="inp_mo" title="currency" onchange="coo();update_calc();">
 					<option value="€">€ EUR</option>
 					<option value="$">$ USD</option>
 					<option value="£">£ GBP</option>
 					<option value="¥">¥ YEN</option>
 					<option value="-">other</option>
-					</select><br />
+					</select><br>
 					<div style="float:left;margin-right:80px;">Units :</span>&nbsp;</div>
-					<div class="unit"><label for="r3">nautic</label><br /><input <?if ($unit==0){echo 'checked';}?> type="radio" name="unit" value="nautic" id="r3" onclick="change_unit(0);coo();update_calc();" /></div>
-					<div class="unit"><hr class="vr" /></div>
-					<div class="unit"><label for="r1">imperial</label><br /><input <?if ($unit==1){echo 'checked';}?> type="radio" name="unit" value="imperial" id="r1" onclick="change_unit(1);coo();update_calc();" /></div>
-					<div class="unit"><hr class="vr" /></div>
-					<div class="unit"><label for="r2">metric</label><br /><input <?if ($unit==2){echo 'checked';}?> type="radio" name="unit" value="metric" id="r2" onclick="change_unit(2);coo();update_calc();" /></div>
+					<div class="unit"><label for="r3">nautic</label><br><input <?if ($unit==0){echo 'checked';}?> type="radio" name="unit" value="nautic" id="r3" onclick="change_unit(0);coo();update_calc();"></div>
+					<div class="unit"><hr class="vr"></div>
+					<div class="unit"><label for="r1">imperial</label><br><input <?if ($unit==1){echo 'checked';}?> type="radio" name="unit" value="imperial" id="r1" onclick="change_unit(1);coo();update_calc();"></div>
+					<div class="unit"><hr class="vr"></div>
+					<div class="unit"><label for="r2">metric</label><br><input <?if ($unit==2){echo 'checked';}?> type="radio" name="unit" value="metric" id="r2" onclick="change_unit(2);coo();update_calc();"></div>
 					<div class="clear"></div>
 					<script type="text/javascript">
 					u = <?=$unit?>;
@@ -145,15 +145,15 @@ if (isset($_COOKIE['curen'])){$curen=$_COOKIE['curen'];}else{$curen='$';}
 	<div id="tbox" style="border:1px solid #fff;width:400px;height:200px;margin-left:-200px;margin-top:-100px;position:absolute;left:50%;top:50%;z-index:100;">
 		<div id="cbar" style="background:#808080;height:24px;">
 			<div id="box_ttl" style="float:left;color:#fff;padding:3px;">delete</div>
-			<div id="cbtn" style="float:right;"><input type="button" value="X" title="close" onclick="$('#confirm').hide();" style="text-align:right;height:22px;" /></div>
+			<div id="cbtn" style="float:right;"><input type="button" value="X" title="close" onclick="$('#confirm').hide();" style="text-align:right;height:22px;"></div>
 			<div class="clear"></div>
 		</div>
 		<div id="cbody" style="position:absolute;background:#000;color:#fff;width:400px;height:176px;">
 			<div style="margin:30px;"><span id="qm" style="display:inline-block;width:40px;height:38px;background:url(s.png) no-repeat -493px -332px;vertical-align:middle;" ></span> <span id="box_txt">which marker do you want to delete ?</span></div>
 			<div id="box_btn" style="margin:30px;">
-				<input type="button" value="All" title="All" onclick="$('#confirm').hide();reset_poly();" class="cbtn" />
-				<input type="button" value="Last" title="Last" onclick="$('#confirm').hide();deleteLast();" class="cbtn" />
-				<input type="button" value="None" title="Close" onclick="$('#confirm').hide();" class="cbtn" />
+				<input type="button" value="All" title="All" onclick="$('#confirm').hide();reset_poly();" class="cbtn">
+				<input type="button" value="Last" title="Last" onclick="$('#confirm').hide();deleteLast();" class="cbtn">
+				<input type="button" value="None" title="Close" onclick="$('#confirm').hide();" class="cbtn">
 			</div>
 		</div>
 	</div>
@@ -174,7 +174,7 @@ if (isset($_COOKIE['curen'])){$curen=$_COOKIE['curen'];}else{$curen='$';}
 	</div>
 </div>
 
-<span title="WebDesign &copy; by Daniel Mihalcea" style="position:absolute;bottom:19px;right:0px;">Webdesign<a href="http://mihalcea.fr/" target="_blank"><img src="mi.png" alt="Daniel Mihalcea" width="16" height="14" style="border:0;vertical-align:middle;" /></a></span>
+<span title="WebDesign &copy; by Daniel Mihalcea" style="position:absolute;bottom:19px;right:0px;">Webdesign<a href="http://mihalcea.fr/" target="_blank"><img src="mi.png" alt="Daniel Mihalcea" width="16" height="14" style="border:0;vertical-align:middle;"></a></span>
 </body>
 </html>
 <?
