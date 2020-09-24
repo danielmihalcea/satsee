@@ -41,7 +41,7 @@ if (isset($_COOKIE['curen'])){$curen=$_COOKIE['curen'];}else{$curen='$';}
 <body>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 <script src="./vincenty.js"></script>
-<script src="https://maps.google.com/maps/api/js?key=AIzaSyBFiSSWY619h4crjQRChVGHzstaCtdel4Q"></script>
+<script src="https://maps.google.com/maps/api/js?key=ABC"></script>
 <script src="./s.js"></script>
 <script>
   var _gaq = _gaq || [];
