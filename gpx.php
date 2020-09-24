@@ -8,7 +8,7 @@ $xmlstring = <<<XML
     <author>
       <name>Daniel MIHALCEA</name>
     </author>
-    <link href="www.satsee.com">
+    <link href="satsee.mihalcea.fr">
       <text>Satsee</text>
     </link>
   </metadata>
@@ -32,8 +32,6 @@ $d = time();
 $d0 = date($df,$d);
 $i = 0;
 date_default_timezone_set('UTC');
-
-// include('vincenty.php');
 
 foreach ($points as $p) {
 	if ($i > 0) {
