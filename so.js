@@ -116,7 +116,11 @@ function s2m(s){
 	a = eval(s);
 	l = a.length;
 	reset_poly();
-	for (i=0;i<l;i++) {
+	console.log(l);
+	let p = 1;
+	if (l > 100) p = 5;
+	if (l > 1000) p = 50;
+	for (i=0;i<l;i+=p) {
 		addLatLng(new google.maps.LatLng(a[i][0],a[i][1]));
 	}
 }
@@ -295,6 +299,29 @@ function myConfirm(a,b,c){
 // myConfirm("delete marker", "Are you sure ?",{Yes:"",No:"$('#confirm').hide();"});
 function showDel(){
 	myConfirm("delete", "Which marker do you want to delete ?",{All:"$('#confirm').hide();reset_poly();",Last:"$('#confirm').hide();deleteLast();", None:"$('#confirm').hide();"});
+}
+function showImp(){
+	$("#box_ttl").html("import GPX");
+	$("#box_txt").html("Select GPX file");
+	$("#box_btn").html('<input type="file" id="input" onchange="loadGPX(this.files[0])">');
+	$("#confirm").show();
+}
+var file = new FileReader();
+var xml;
+function loadGPX(f) {
+	$("#confirm").hide();
+	file.readAsText(f);
+	file.onload = function(e) {
+		let parser = new DOMParser();
+		xml = parser.parseFromString(file.result,"text/xml");
+		trkpt = xml.getElementsByTagName("trkpt");
+		let s = "[";
+		for (let i=0; i<trkpt.length; i++){
+			s += "[" + trkpt[i].getAttribute('lat') + "," + trkpt[i].getAttribute('lon') + "],";
+		}
+		s+="]";
+		s2m(s);
+	}
 }
 function rClick(n){
 	myConfirm("delete marker", "Are you sure you want to delete marker #"+(n+1).toString()+" ?",{Yes:"deleteMarker("+n.toString()+");$('#confirm').hide();",No:"$('#confirm').hide();"});
