@@ -27,13 +27,13 @@ function distVincenty(lat1, lon1, lat2, lon2) {
     var sinLambda = Math.sin(lambda), cosLambda = Math.cos(lambda);
     var sinSigma = Math.sqrt((cosU2*sinLambda) * (cosU2*sinLambda) + 
       (cosU1*sinU2-sinU1*cosU2*cosLambda) * (cosU1*sinU2-sinU1*cosU2*cosLambda));
-    if (sinSigma==0) return 0;  // co-incident points
+    if (sinSigma==0) return { distance: 0, initialBearing: 0, finalBearing: 0 };  // co-incident points
     var cosSigma = sinU1*sinU2 + cosU1*cosU2*cosLambda;
     var sigma = Math.atan2(sinSigma, cosSigma);
     var sinAlpha = cosU1 * cosU2 * sinLambda / sinSigma;
     var cosSqAlpha = 1 - sinAlpha*sinAlpha;
     var cos2SigmaM = cosSigma - 2*sinU1*sinU2/cosSqAlpha;
-    if (isNaN(cos2SigmaM)) cos2SigmaM = 0;  // equatorial line: cosSqAlpha=0 (§6)
+    if (isNaN(cos2SigmaM)) cos2SigmaM = 0;  // equatorial line: cosSqAlpha=0 (ï¿½6)
     var C = f/16*cosSqAlpha*(4+f*(4-3*cosSqAlpha));
     lambdaP = lambda;
     lambda = L + (1-C) * f * sinAlpha *

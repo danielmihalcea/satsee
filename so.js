@@ -14,6 +14,8 @@ var icofa = new google.maps.MarkerImage("s.png", new google.maps.Size(19,35), ne
 
 var u = 0;
 var unit = [];
+const gi = document.getElementById.bind(document); // racourci syntaxique
+const gn = document.getElementsByClassName.bind(document); // racourci syntaxique
 unit[0] = {"dist": 1/1852, "volum": 1, "speed": 1/1.852}; // nautic miles, liter, knots
 unit[1] = {"dist": 1/1605, "volum": 1/3.785411784, "speed": 1/1.605}; // miles, galon, mph
 unit[2] = {"dist": 1/1000, "volum": 1, "speed": 1}; // km, liter, kph
@@ -43,11 +45,11 @@ function getCookie(sName) {
         }
 }
 function coo(){
-    createCookie("speed",parseFloat(document.getElementById("inp_speed").value),30);
-    createCookie("conso",parseFloat($("#inp_conso").val()),30);
-    createCookie("price",parseFloat($("#inp_rate").val().replace(",", ".")),30);
+    createCookie("speed",parseFloat(gi("inp_speed").value),30);
+    createCookie("conso",parseFloat(gi("inp_conso").value),30);
+    createCookie("price",parseFloat(gi("inp_rate").value.replace(",", ".")),30);
     createCookie("unit",u,30);
-    createCookie("curen",$("#inp_mo").val(),30);
+    createCookie("curen",gi("inp_mo").value,30);
     createCookie("zoom",zoom,30);
     createCookie("lat",map.getCenter().lat(),30);
     createCookie("lng",map.getCenter().lng(),30);
@@ -84,14 +86,20 @@ function hour(t) {
 function change_unit(a) {
     var u0 = u;
     u = a;
-    $("#inp_speed").val(parseFloat($("#inp_speed").val()) / unit[u0].speed * unit[u].speed);
-    $("#inp_conso").val(parseFloat($("#inp_conso").val()) / unit[u0].volum * unit[u].volum);
+    gi("inp_speed").value = parseFloat(gi("inp_speed").value) / unit[u0].speed * unit[u].speed;
+    gi("inp_conso").value = parseFloat(gi("inp_conso").value) / unit[u0].volum * unit[u].volum;
+}
+function update_class(c, h) {
+    var n = gn(c);
+    for (let i = 0; i< n.length; i++) {
+        n[i].innerHTML = h;
+    }
 }
 function update_unit() {
-    $(".lbl_dist").html(unit_lbl[u].dist);
-    $(".lbl_vol").html(unit_lbl[u].vol);
-    $(".lbl_speed").html(unit_lbl[u].speed);
-    $(".lbl_mo").html($("#inp_mo").val());
+    update_class("lbl_dist", unit_lbl[u].dist);
+    update_class("lbl_vol", unit_lbl[u].vol);
+    update_class("lbl_speed", unit_lbl[u].speed);
+    update_class("lbl_mo", gi("inp_mo").value);
 }
 function round(x,d) {
     var t = Math.pow(10,d);
@@ -118,10 +126,12 @@ function s2m(s){
     console.log(l);
     let p = 1;
     if (l > 100) p = 5;
-    if (l > 1000) p = 50;
+    // if (l > 1000) p = 50;
     for (i=0;i<l;i+=p) {
+        // console.log(i);
         addLatLng(new google.maps.LatLng(a[i][0],a[i][1]));
     }
+    update_poly(true);
 }
 function add2seg(n,c){
     var i,l,p,a,b;
@@ -143,6 +153,7 @@ function add2seg(n,c){
     for (i=0;i<=l;i++) {
         addLatLng(new google.maps.LatLng(a[i][0],a[i][1]));
     }
+    update_poly(true);
 }
 function uMark(){
     var i;
@@ -161,9 +172,9 @@ function printRt(){
     nWin.document.write('<!DOCTYPE html><html><head><title>Satsee - Route calculator</title><link rel="stylesheet" type="text/css"href="default.css" /></head><body>');
     nWin.document.write("<h1>Satsee route calculator</h1>");
     nWin.document.write("<p>Navigation summary :</p>");
-    nWin.document.write("<p>Distance : "+$("#res_dist").html()+" "+$(".lbl_dist").html()+"<br>Duration : "+$("#res_time").html()+"<br>Fuel consumption : "+$("#res_vol").html()+" "+$(".lbl_vol").html()+"<br>Cruise fuel rate : "+$("#res_price").html()+" "+$(".lbl_mo").html()+"</p>");
+    nWin.document.write("<p>Distance : "+gi("res_dist").innerHTML+" "+gn("lbl_dist")[0].innerHTML+"<br>Duration : "+gi("res_time").innerHTML+"<br>Fuel consumption : "+gi("res_vol").innerHTML+" "+gn("lbl_vol")[0].innerHTML+"<br>Cruise fuel rate : "+gi("res_price").innerHTML+" "+gn("lbl_mo")[0].innerHTML+"</p>");
     nWin.document.write("<p>Route details :</p>");
-    nWin.document.write($("#tbc1_3_path").html());
+    nWin.document.write(gi("tbc1_3_path").innerHTML);
     nWin.document.write('</body></html>');
     nWin.focus();
     nWin.print();
@@ -173,7 +184,7 @@ function update_calc() {
     var dist = 0;
     var size = markersArray.length;
     var pdet = "no data";
-    var speed = parseFloat($("#inp_speed").val());
+    var speed = parseFloat(gi("inp_speed").value);
     var th = "";
     update_unit();
     if(size>0) {
@@ -214,18 +225,19 @@ function update_calc() {
         }
         createCookie("time",th,30);
     }
-    $("#tbc1_3_path").html(pdet);
-    $("#res_dist").html(round(dist*unit[u].dist,3));
+    gi("tbc1_3_path").innerHTML = pdet;
+    gi("res_dist").innerHTML = round(dist*unit[u].dist,3);
     var time = 0;
     if (speed !== 0) {
         time = dist*unit[u].dist/speed;
     }
-    $("#res_time").html(hour(time));
-    var conso = parseFloat($("#inp_conso").val());
-    $("#res_vol").html(round(time*conso,1));
-    var price = parseFloat($("#inp_rate").val().replace(",", "."));
-    $("#res_price").html(round(time*conso*price,2));
-    
+    gi("res_time").innerHTML = hour(time);
+    var conso = parseFloat(gi("inp_conso").value);
+    gi("res_vol").innerHTML = round(time*conso,1);
+    var price = parseFloat(gi("inp_rate").value.replace(",", "."));
+    gi("res_price").innerHTML = round(time*conso*price,2);
+    if (markersArray.length>1) {gi("pdet"+(markersArray.length-1)).scrollIntoView();}
+    if (size > 0) uMark();
 }
 function hide_poly() {
     if (linesArray) {
@@ -255,8 +267,8 @@ function update_poly(c) {
                 linesArray[i].dsbid=i.toString();
                 linesArray[i].getPath().push(markersArray[i-1].position);
                 linesArray[i].getPath().push(markersArray[i].position);
-                google.maps.event.addListener(linesArray[i], 'mouseover', function(){this.setOptions({strokeColor:"#ff9933",strokeWeight:5});$("#pdet"+this.dsbid).addClass("pdeta");$("#pdet"+this.dsbid)[0].scrollIntoView(true);});
-                google.maps.event.addListener(linesArray[i], 'mouseout', function(){this.setOptions({strokeColor:"#000000",strokeWeight:3});$("#pdet"+this.dsbid).removeClass("pdeta");});
+                google.maps.event.addListener(linesArray[i], 'mouseover', function(){this.setOptions({strokeColor:"#ff9933",strokeWeight:5});gi("pdet"+this.dsbid).classList.add("pdeta");gi("pdet"+this.dsbid).scrollIntoView();});
+                google.maps.event.addListener(linesArray[i], 'mouseout', function(){this.setOptions({strokeColor:"#000000",strokeWeight:3});gi("pdet"+this.dsbid).classList.remove("pdeta");});
                 google.maps.event.addListener(linesArray[i], 'click', function(event){add2seg(this.dsbid,event.latLng);});
             }
         }
@@ -284,30 +296,30 @@ function deleteLast(){
 }
 function myConfirm(a,b,c){
     var i,s;
-    $("#box_ttl").html(a);
-    $("#box_txt").html(b);
+    gi("box_ttl").innerHTML = a;
+    gi("box_txt").innerHTML = b;
     s = "";
     for (i in c){
         var f = c[i];
-        s += '<input type="button" value="'+i+'" title="'+i+'" onclick="'+f+'" class="cbtn" />';
+        s += '<input type="button" value="'+i+'" title="'+i+'" onclick="'+f+'" class="cbtn">';
     }
-    $("#box_btn").html(s);
-    $("#confirm").show();
+    gi("box_btn").innerHTML = s;
+    gi("confirm").style.display = "block";
 }
-// myConfirm("delete marker", "Are you sure ?",{Yes:"",No:"$('#confirm').hide();"});
+function cHide(){gi("confirm").style.display = "none";} // hide myConform
 function showDel(){
-    myConfirm("delete", "Which marker do you want to delete ?",{All:"$('#confirm').hide();reset_poly();",Last:"$('#confirm').hide();deleteLast();", None:"$('#confirm').hide();"});
+    myConfirm("delete", "Which marker do you want to delete ?",{All:"cHide();reset_poly();",Last:"cHide();deleteLast();", None:"cHide();"});
 }
 function showImp(){
-    $("#box_ttl").html("import GPX");
-    $("#box_txt").html("Select GPX file");
-    $("#box_btn").html('<input type="file" id="input" onchange="loadGPX(this.files[0])">');
-    $("#confirm").show();
+    gi("box_ttl").innerHTML = "import GPX";
+    gi("box_txt").innerHTML = "Select GPX file";
+    gi("box_btn").innerHTML = '<input type="file" id="input" onchange="loadGPX(this.files[0])">';
+    gi("confirm").style.display = "block";
 }
 var file = new FileReader();
 var xml;
 function loadGPX(f) {
-    $("#confirm").hide();
+    cHide();
     file.readAsText(f);
     file.onload = function(e) {
         let parser = new DOMParser();
@@ -322,9 +334,8 @@ function loadGPX(f) {
     }
 }
 function rClick(n){
-    myConfirm("delete marker", "Are you sure you want to delete marker #"+(n+1).toString()+" ?",{Yes:"deleteMarker("+n.toString()+");$('#confirm').hide();",No:"$('#confirm').hide();"});
-    // y=confirm("Delete marker ?"+(n+1));
-    // if(y){deleteMarker(n);}
+    myConfirm("delete marker", "Are you sure you want to delete marker #"+(n+1).toString()+" ?",{Yes:"deleteMarker("+n.toString()+");cHide();",No:"cHide();"});
+    // if(confirm("Delete marker ?"+(n+1))){deleteMarker(n);}
 }
 function infocont(m) {
     var n = m.dsbid;
@@ -337,6 +348,7 @@ function infow(m) {
     info.open(map,m);
 }
 function addLatLng(latLng) {
+    // console.time("addLatLng");
     var marker = new google.maps.Marker({
      position:latLng,
      draggable:true,
@@ -355,16 +367,18 @@ function addLatLng(latLng) {
     google.maps.event.addListener(marker, 'drag', function(){info.setContent(infocont(this));update_poly(false);});
     google.maps.event.addListener(marker, 'click', function(){infow(this);});
     markersArray.push(marker);
-    update_poly(true);
-    if (markersArray.length>1) {$("#pdet"+(markersArray.length-1))[0].scrollIntoView(true);}
-    update_calc();
-    uMark();
+    // update_poly(true);
+    // if (markersArray.length>1) {gi("pdet"+(markersArray.length-1)).scrollIntoView();}
+    // update_calc();
+    // uMark();
+    // console.timeEnd("addLatLng");
 }
 var ctm,cl,cs;
 ctm = 0;
 cs = false;
 function addl() {
     addLatLng(cl);
+    update_poly(true);
     cs = false;
 }
 function manageClick(l){
@@ -375,7 +389,7 @@ function manageClick(l){
     }
     cs = true;
     cl = l;
-    ctm = setTimeout("addl()",300);
+    ctm = setTimeout("addl()",100);
 }
 function route(s) {
     if(tool_route===s){return;}
@@ -415,7 +429,7 @@ function init_map() {
     zoom = parseInt(getCookie("zoom"));if (isNaN(zoom)){zoom=3;}
     var latlng = new google.maps.LatLng(latitude,longitude);
     var myOptions = {zoom:zoom, center:latlng, mapTypeId:"satsee", disableDefaultUI:true, scaleControl:true, minZoom:3};
-    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    map = new google.maps.Map(gi("map_canvas"), myOptions);
     
     var styless = [
         {featureType:"road",elementType:"all",stylers:[{visibility:"off"}]},
@@ -432,7 +446,7 @@ function init_map() {
     map.mapTypes.set('satsee', ssMapType);
 
     google.maps.event.addListener(map, "mousemove", function(event) {
-     $("#coords").html("Lat: <span class=\"coord\">"+lat_dec2deg(event.latLng.lat().toString())+"</span> Lon: <span class=\"coord\">"+lng_dec2deg(event.latLng.lng().toString())+"</span>");
+     gi("coords").innerHTML = "Lat: <span class=\"coord\">"+lat_dec2deg(event.latLng.lat().toString())+"</span> Lon: <span class=\"coord\">"+lng_dec2deg(event.latLng.lng().toString())+"</span>";
     });
     google.maps.event.addListener(map, "zoom_changed", update_zoom);
     google.maps.event.addListener(map, "center_changed", update_center);
@@ -446,25 +460,18 @@ function address(s) {new google.maps.Geocoder().geocode({address:s}, function(r)
 function select_menu(n) {
     var i;
     route(true);
-    if (n===0) {
-        for (i=1; i<=6; i++) {
-            $("#m"+i.toString()).addClass("mi"+i.toString());
-            $("#m"+i.toString()).removeClass("ma"+i.toString());
-            $("#tbc"+i.toString()).hide();
-        }
-        return;
+    for (i=1; i<=3; i++) {
+        gi("m"+i).classList.add("mi"+i);
+        gi("m"+i).classList.remove("ma"+i);
+        gi("tbc"+i).style.display = "none";
     }
-    for (i=1; i<=6; i++) {
-        $("#m"+i.toString()).addClass("mi"+i.toString());
-        $("#m"+i.toString()).removeClass("ma"+i.toString());
-        $("#tbc"+i.toString()).hide();
-    }
-    $("#m"+n.toString()).removeClass("mi"+n.toString());
-    $("#m"+n.toString()).addClass("ma"+n.toString());
-    $("#tbc"+n.toString()).show();
+    if (n===0) {return;}
+    gi("m"+n).classList.remove("mi"+n);
+    gi("m"+n).classList.add("ma"+n);
+    gi("tbc"+n).style.display = "block";
 }
-function change_map_type($s) {
-    switch ($s) {
+function change_map_type(s) {
+    switch (s) {
         case "0": map.setMapTypeId(google.maps.MapTypeId.SATELLITE); break;
         case "1": map.setMapTypeId(google.maps.MapTypeId.HYBRID); break;
         case "2": map.setMapTypeId(google.maps.MapTypeId.ROADMAP); break;
@@ -484,13 +491,14 @@ function GetDomOffset(o,p) {
     return i;
 }
 
-$(document).ready(function(){
+// $(document).ready(function(){
+document.addEventListener("DOMContentLoaded", function() {
     init_map();
     select_menu(2);
-    $("#search")[0].onmousedown = function(){
+    gi("search").onmousedown = function(){
         var e=arguments[0]||event;
-        if(e.clientX-GetDomOffset($("#search")[0],"offsetLeft")<17){
-            address($("#search").val());
+        if(e.clientX-GetDomOffset(gi("search"),"offsetLeft")<17){
+            address(gi("search").value);
         }
     }
 });
