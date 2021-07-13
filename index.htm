@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-27130384-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-27130384-1');
+</script>
 <meta name="viewport" content="user-scalable=no, width=700">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Satsee - Route calculator</title>
@@ -13,25 +21,10 @@
 </head>
 <body>
 <script src="./vincenty.js"></script>
-<!-- <script src="https://maps.google.com/maps/api/js?key=AIzaSyBFiSSWY619h4crjQRChVGHzstaCtdel4Q"></script> -->
 <script src="https://maps.google.com/maps/api/js"></script>
 <script src="./s.js"></script>
-<script>
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-27130384-1']);
-  _gaq.push(['_setDomainName', '.satsee.com']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
 <div id="map_canvas"></div>
-
 <div id="logo" title="Satsee"></div>
-
 <div id="topmenu">
 	<div id="tbb" class="wrap">
 		<div id="zp" class="zoom"><a href="" title="+" onclick="if (zoom <21) map.setZoom(++zoom);return false;"></a></div>
@@ -51,8 +44,6 @@
 		</select>
 	</div>
 </div>
-
-
 <div id="toolbox">
 	<div id="tooltop">
 		<div id="menu" class="wrap">
@@ -61,7 +52,6 @@
 			<div id="m3" class="menu mi3"><a href="" title="Path details" onclick="select_menu(3);return false;">&nbsp;</a></div>
 		</div>
 	</div>
-
 	<div id="toolmid">
 		<!-- Setup -->
 		<div id="tbc1" class="wrap">
@@ -98,14 +88,12 @@
 						var curen = getCookie("curen");
 						if (curen == null) createCookie("curen", curen = '$', 30);
 						u = units;
-						
 						// $("#inp_mo").val("€");
 						document.getElementById("inp_mo").value = curen;
 						document.getElementById("inp_speed").value = speed;
 						document.getElementById("inp_conso").value = conso;
 						document.getElementById("inp_rate").value = price;
 						document.getElementsByName("unit")[units].checked = true;
-
 					</script>
 				</div>
 				<div class="clear"></div>
@@ -119,7 +107,6 @@
 				<div>Fuel consumption : <span class="result"><span id="res_vol">0</span> <span class="lbl_vol">L</span></span></div>
 				<div>Cruise fuel rate : <span class="result"><span id="res_price">0</span> <span class="lbl_mo">€</span></span></div>
 			</div>
-
 		</div>
 		<!-- Path details -->
 		<div id="tbc3" class="wrap">
@@ -127,7 +114,6 @@
 		</div>
 	</div>
 </div>
-
 <div id="confirm" oncontextmenu="return false;" style="position:absolute;width:100%;height:100%;top:0px;left:0px;z-index:99;background:rgb(0,0,0);background:rgba(0,0,0,0.8);display:none;">
 	<div id="tbox" style="border:1px solid #fff;width:400px;height:200px;margin-left:-200px;margin-top:-100px;position:absolute;left:50%;top:50%;z-index:100;">
 		<div id="cbar" style="background:#808080;height:24px;">
@@ -142,10 +128,9 @@
 		</div>
 	</div>
 </div>
-
-<div id="help" style="margin-top:-100%;">
+<div id="help" style="margin-top:-100vh;">
 	<div id="helpx">
-	<a href="" title="Close" onclick="gi('help').style.marginTop='-100%';return false;">&nbsp;</a>
+	<a href="" title="Close" onclick="gi('help').style.marginTop='-100vh';return false;">&nbsp;</a>
 	</div>
 	<div id="helpc">
 		<h1>- Help -</h1>
@@ -153,11 +138,10 @@
 		<p>You have to setup the characteristics of your vessel in the [Setup] menu according on yours.</p>
 		<p>Your data is stored on your computer in a cookie for a 30-day period. Nothing is stored on the server, this service is totally anonymous.</p>
 		<p>You can draw a path by clicking on the map with your mouse. the pas is editable : you can drag the plots and delete them by right clicking on it. You can also add a plot in the middle of the path by clicking a segment.</p>
-		<p>contact : <a href="mailto:contact@satsee.com">contact@satsee.com</a></p>
-		<iframe width="640" height="480" src="http://www.youtube.com/embed/yBBgKAPlFLo?rel=0" frameborder="0" allowfullscreen></iframe>
+		<!-- p>contact : <a href="mailto:contact@satsee.com">contact@satsee.com</a></p -->
+		<iframe width="640" height="480" src="//www.youtube.com/embed/yBBgKAPlFLo?rel=0" frameborder="0" allowfullscreen></iframe>
 	</div>
 </div>
-
-<span title="WebDesign &copy; by Daniel Mihalcea" style="position:absolute;bottom:19px;right:0px;">Webdesign<a href="http://mihalcea.fr/" target="_blank"><img src="mi.png" alt="Daniel Mihalcea" width="16" height="14" style="border:0;vertical-align:middle;"></a></span>
+<span title="WebDesign &copy; by Daniel Mihalcea" style="position:absolute;bottom:19px;right:0px;">Webdesign<a href="//mihalcea.fr/" target="_blank"><img src="mi.png" alt="Daniel Mihalcea" width="16" height="14" style="border:0;vertical-align:middle;"></a></span>
 </body>
 </html>
