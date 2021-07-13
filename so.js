@@ -103,7 +103,7 @@ function update_unit() {
 }
 function round(x,d) {
     var t = Math.pow(10,d);
-    return Math.round(x*t)/t;
+    return ~~(x*t+.5)/t; // Math.round(x*t)/t;
 }
 function zf(i){return i<10?("0"+i):i;}
 function m2s(){
@@ -432,14 +432,15 @@ function init_map() {
     map = new google.maps.Map(gi("map_canvas"), myOptions);
     
     var styless = [
-        {featureType:"road",elementType:"all",stylers:[{visibility:"off"}]},
-        {featureType:"administrative",elementType:"all",stylers:[{lightness:0},{saturation:0},{hue:"#ffffff"},{invert_lightness:false},{visibility:"on"}]},
-        {featureType: "administrative",elementType: "geometry",stylers: [{visibility:"off" }]},
-        {featureType: "administrative.country",elementType:"all",stylers:[{lightness:0},{saturation:0},{hue:"#ffffff"},{invert_lightness:false},{visibility:"on"}]},
-        {featureType: "poi",elementType:"all",stylers:[{visibility:"off"}]},
-        {featureType: "transit",elementType:"all",stylers:[{visibility:"off"}]},
-        {featureType: "landscape",elementType:"all",stylers:[{hue:"#ffffff"},{lightness:0}]},
-        {featureType: "water",elementType:"all",stylers:[{hue:"#3399ff"},{lightness:0},{saturation:100},{invert_lightness:false},{gamma:1},{visibility:"on"}]}
+        {"featureType":"road","elementType":"all","stylers":[{"visibility":"off"}]},
+        {"featureType":"administrative","elementType":"all","stylers":[{"visibility":"on"}]},
+        {"featureType": "administrative","elementType": "geometry","stylers": [{"visibility":"off" }]},
+        {"featureType": "administrative.country","elementType":"all","stylers":[{"visibility":"on"}]},
+        {"featureType": "poi","elementType":"all","stylers":[{"visibility":"off"}]},
+        {"featureType": "transit","elementType":"all","stylers":[{"visibility":"off"}]},
+        {"featureType": "transit.line.ferry","elementType":"geometry.fill","stylers":[{"color":"#613586"},{"visibility":"on"}]},
+        {"featureType": "landscape","elementType":"all","stylers":[{"hue":"#ffffff"},{"lightness":0}]},
+        {"featureType": "water","elementType":"all","stylers":[{"color":"#aad5ff"},{"visibility":"on"}]}
     ];
     var styledMapOptions = {name: "Satsee"};
     var ssMapType = new google.maps.StyledMapType(styless, styledMapOptions);
